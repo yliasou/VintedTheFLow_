@@ -3,7 +3,7 @@
     include_once "BackendConfigurations/DB_Configurations/config.php";
     include_once "BackendConfigurations/Articles_Configurations/getarticles.php";
     include_once "BackendConfigurations/Users_configurations/getusersinformations.php";
-?>
+?> 
 <!DOCTYPE html>
 <html lang="en">
 
