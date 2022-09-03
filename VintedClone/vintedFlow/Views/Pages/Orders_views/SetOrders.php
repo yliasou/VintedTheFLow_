@@ -20,6 +20,13 @@ if(isset($_POST["submit"])){
     // $sql = mysqli_query($conn, "INSERT INTO Orders (usermail, Username, OrderID)
     //         VALUES ({$usermail}, {$Username}, '{$OrderID}')") or die();
 
+    $to = $newusermail;
+    $subject = "New order for you";
+    $txt = "You have a new order for your articles ".$OrderID." Open the app for more details";
+    $headers = "zokoupol5@gmail.com" . "\r\n";
+
+    mail($to,$subject,$txt,$headers);
+
 } 
  
 // Display status message 

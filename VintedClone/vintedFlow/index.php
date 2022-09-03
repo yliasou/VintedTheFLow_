@@ -1,9 +1,8 @@
 <?php
     session_start();
-    include_once "config.php";
-    if(!isset($_SESSION['unique_id'])){
-        //header("location: index.php");
-      }
+    include_once "BackendConfigurations/DB_Configurations/config.php";
+    include_once "BackendConfigurations/Articles_Configurations/getarticles.php";
+    include_once "BackendConfigurations/Users_configurations/getusersinformations.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -470,26 +469,17 @@
 
                             
             </h4><!-- End .title text-center -->
-            <?php 
-			// Include the database configuration file  
-			require_once 'dbConfig.php'; 
-			
-			// Get image data from database 
-           if(isset($_SESSION['unique_id'])) {
-                $result = $db->query("SELECT * FROM hotel ORDER BY id DESC"); 
-
-			?>
             
-			<?php if($result->num_rows > 0){ ?> 
-				<div class="gallery" style="text-align: center"> 
-					<?php while($row = $result->fetch_assoc()){ ?> 
-                    
            
             <div class="page-content">
                 <div class="container">
 
                 	<hr class="mb-5">
-
+                    <?php
+                        //Getting Articles List
+                        foreach ($result as $row):
+                    ?>
+                    
                     <h4 class="title text-center mb-2"><?php echo$row['hotelname'];?></h4>
                     
                 	<div class="row justify-content-center">
@@ -517,11 +507,11 @@
                                         ?>
                                        
                                         <form action="SetOrders.php" method="POST">
-                                            
-                                            <input type="text" value="<?php echo($_SESSION["OrderID"]); ?>" name="OrderID"   hidden>
-                                            <input type="text" value="<?php echo($_SESSION["ownerID"]); ?>" name="ownerID" hidden  >
-                                            <input type="text" value="<?php echo($_SESSION["usermail"]); ?>" name="newusermail" hidden>
-                                            <input type="text" value="<?php echo($_SESSION["Username"]); ?>" name="Username" hidden>
+                                          
+                                            <input type="text" value="<?php echo($_SESSION["OrderID"]); ?>" name="OrderID"   >
+                                            <input type="text" value="<?php echo($_SESSION["ownerID"]); ?>" name="ownerID"   >
+                                            <input type="text" value="<?php echo($_SESSION["usermail"]); ?>" name="newusermail" >
+                                            <input type="text" value="<?php echo($_SESSION["Username"]); ?>" name="Username" >
                                             
     
                                             <button type="submit" class="btn btn-outline-primary-2" name="submit">Buy and contact user</button>
@@ -533,23 +523,16 @@
                                     <form action="chat.php?user_id=<?php echo$_SESSION["usersvalue"];?>" method= "POST">
                                             <input type="text" value="<?php  if(isset($_SESSION['OrderID'])){
                                                 echo $_SESSION["OrderID"];
-                                            } //echo $_SESSION["OrderID"] = $row['commandIDs']; ?>" name="OrderID" hidden>
+                                            } echo $_SESSION["OrderID"] = $row['commandIDs']; ?>" name="OrderID" hidden>
                                             <button type="submit" class="btn btn-outline-primary-2" name="submit">Manage An Offer</button>
                                         </form>
 
                 				</div><!-- End .entry-body -->
                 			</article><!-- End .entry -->
                 		</div><!-- End .col-md-4 -->
-                		<?php
-                         } ?> 
-                         <?php }
-                        ?>	
-                         </div> 
-                     <?php }else{ ?> 
-                         <p class="status error" style="text-align: center;">Aucun Article Disponible veuillez vous connectez...</p> 
-                     <?php } 
-                        ?>          
-                	</div>
+                        <?php 
+                            endforeach;
+                        ?>
                 		
                 	
         <footer class="footer">
@@ -919,36 +902,3 @@
 
 <!-- molla/elements-blog-posts.html  22 Nov 2019 10:05:20 GMT -->
 </html>
-<?php 
-    if(!isset($_SESSION['usermail'])){
-        echo("Mail Isnt");
-        //header("location: index.php");
-    }
-    // Include the database configuration file  
-    require_once 'dbConfig.php'; 
-	$user_id = $_SESSION['unique_id'];
-    
-	// Get image data from database 
-	$UserResult = $db->query("SELECT * FROM users WHERE unique_id = {$user_id} "); 
-?>
-            
-<?php if($UserResult->num_rows > 0){ ?> 
-	<div class="gallery" style="text-align: center"> 
-	<?php while($userinfo = $UserResult->fetch_assoc()){ ?> 
-
-<?php
-    
-    $mailUser =  $userinfo['email'];
-    $mailUser =  $userinfo['email'];
-    $_SESSION["usermail"] =  $mailUser;
-    $_SESSION["Username"] =  $userinfo['fname'];
-    // echo($mailUser);
-    //$_SESSION["commandID"] =  $userinfo['id'];
-?>
-</div> 
-<?php
-} ?> 
-<?php }else{ ?> 
- <p class="status error" style="text-align: center;">No orders...</p> 
-<?php } 
-?>  

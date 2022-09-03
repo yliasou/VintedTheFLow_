@@ -15,7 +15,7 @@
                     $output .= '<div class="chat outgoing">
                                 <div class="details">
                                     <p>'. $row['msg'] .'</p>
-                                </div>
+                                </div> 
                                 </div>';
                 }else{
                     $output .= '<div class="chat incoming">

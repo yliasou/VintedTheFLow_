@@ -8,7 +8,7 @@
 <?php include_once "header.php"; ?>
 <body>
   <div class="wrapper">
-    <section class="chat-area">
+    <section class="chat-area">  
       <header>
         <?php 
           $user_id = mysqli_real_escape_string($conn, $_GET['user_id']);
